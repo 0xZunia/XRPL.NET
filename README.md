@@ -1,11 +1,9 @@
-# XRPL.NET
-
 <div align="center">
   
-![XRPL.NET Logo](https://raw.githubusercontent.com/XRPLF/xrpl.js/main/img/xrpl-js-logo.png)
+![XRPL.NET Logo](./assets/XRPL.NET.png)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![.NET](https://img.shields.io/badge/.NET-6.0-512BD4)](https://dotnet.microsoft.com/en-us/)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4)](https://dotnet.microsoft.com/en-us/)
 [![XRP Ledger](https://img.shields.io/badge/XRPL-Ripple-0085C0)](https://xrpl.org/)
 
 **A comprehensive .NET library for interacting with the XRP Ledger**
