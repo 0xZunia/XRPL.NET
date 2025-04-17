@@ -131,10 +131,11 @@ public class XrplClientOptions
                 AddServer("wss://s2.ripple.com");
                 break;
             case NetworkType.TestNet:
-                AddServer("wss://s.altnet.rippletest.net:51233");
+                throw new NotImplementedException("TestNet is not yet implemented.");
+                AddServer("wss://s.devnet.rippletest.net");
                 break;
             case NetworkType.DevNet:
-                AddServer("wss://s.devnet.rippletest.net:51233");
+                AddServer("wss://s.devnet.rippletest.net");
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(networkType), networkType, "Unsupported network type");

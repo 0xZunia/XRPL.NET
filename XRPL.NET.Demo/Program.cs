@@ -25,10 +25,10 @@ namespace XRPL.NET.Demo
             });
             var logger = loggerFactory.CreateLogger<Program>();
 
-            // Initialize XRP Ledger client for TestNet
-            logger.LogInformation("Initializing XRPL client for TestNet...");
+            // Initialize XRP Ledger client for DevNet
+            logger.LogInformation("Initializing XRPL client for DevNet...");
             var clientOptions = new XrplClientOptions()
-                .UseNetwork(NetworkType.TestNet);
+                .UseNetwork(NetworkType.DevNet);
 
             using var client = new XrplClient(clientOptions, loggerFactory);
 
@@ -52,15 +52,20 @@ namespace XRPL.NET.Demo
                 logger.LogInformation("Secret: {0}", wallet.GetSecret());
                 logger.LogInformation("Public key: {0}", wallet.PublicKey);
                 
-                // We need to fund the wallet on TestNet
+                // We need to fund the wallet on DevNet
                 logger.LogInformation("Please fund this wallet at https://test.xrplexplorer.com/en/faucet");
                 logger.LogInformation("Press any key after funding the wallet...");
                 Console.ReadKey();
+                
+                // TODO: here ftf
+                logger.LogError("Demonstration stops here, the rest of the code is not yet functional.");
+                logger.LogInformation("Press any key to exit...");
+                Console.ReadKey();
+                Environment.Exit(0);
 
                 // Get account info
                 try 
                 {
-                    // TODO: here ftf
                     logger.LogInformation("Fetching account info...");
                     var accountInfoResult = await client.Ledger.GetAccountInfoAsync(wallet.Address);
                     
