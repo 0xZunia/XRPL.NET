@@ -7,8 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="Derivation\" />
       <Folder Include="KeyStorage\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\XRPL.NET.Core\XRPL.NET.Core.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="BouncyCastle.Cryptography" Version="2.5.1" />
     </ItemGroup>
 
 </Project>

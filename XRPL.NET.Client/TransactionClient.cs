@@ -147,20 +147,17 @@ public class TransactionClient : ITransactionClient
                 return Result.Failure<SubmitResult>("Failed to get response from server");
             }
 
-            // Check for signing errors
             if (signResponse.error != null)
             {
                 return Result.Failure<SubmitResult>($"Error signing transaction: {signResponse.error} - {signResponse.error_message ?? "Unknown error"}");
             }
 
-            // Get signed transaction blob
             var signedTx = signResponse.result?.tx_blob?.ToString();
             if (string.IsNullOrEmpty(signedTx))
             {
                 return Result.Failure<SubmitResult>("Failed to sign transaction");
             }
 
-            // Submit the signed transaction
             return await SubmitTransactionAsync(signedTx, failHard, cancellationToken);
         }
         catch (Exception ex)
@@ -198,7 +195,6 @@ public class TransactionClient : ITransactionClient
                 return Result.Failure<TransactionStatus>("Failed to get response from server");
             }
 
-            // Check if transaction was found
             if (response.error != null)
             {
                 return Result.Success(new TransactionStatus
@@ -209,7 +205,6 @@ public class TransactionClient : ITransactionClient
                 });
             }
 
-            // Parse response
             var status = new TransactionStatus
             {
                 TransactionId = transactionId,
@@ -223,13 +218,10 @@ public class TransactionClient : ITransactionClient
                 status.LedgerIndex = Convert.ToUInt32(response.result.ledger_index.ToString());
             }
 
-            // Parse date if available
-            if (response.result?.date != null)
-            {
-                var rippleEpoch = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-                uint seconds = Convert.ToUInt32(response.result.date.ToString() ?? "0");
-                status.Date = rippleEpoch.AddSeconds(seconds);
-            }
+            if (response.result?.date == null) return Result.Success(status);
+            var rippleEpoch = new DateTime(2000, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            uint seconds = Convert.ToUInt32(response.result.date.ToString() ?? "0");
+            status.Date = rippleEpoch.AddSeconds(seconds);
 
             return Result.Success(status);
         }
@@ -255,26 +247,22 @@ public class TransactionClient : ITransactionClient
             
             while (DateTime.UtcNow - startTime < maxWaitTime)
             {
-                // Check if cancellation was requested
                 if (cancellationToken.IsCancellationRequested)
                 {
                     return Result.Failure<TransactionStatus>("Operation was canceled");
                 }
                 
-                // Get transaction status
                 var statusResult = await GetTransactionStatusAsync(transactionId, cancellationToken);
                 if (statusResult.IsFailure)
                 {
                     return statusResult;
                 }
                 
-                // If validated, return the status
                 if (statusResult.Value.Validated)
                 {
                     return statusResult;
                 }
                 
-                // Wait before checking again
                 await Task.Delay(1000, cancellationToken);
             }
             

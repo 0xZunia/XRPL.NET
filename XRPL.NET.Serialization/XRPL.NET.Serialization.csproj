@@ -13,6 +13,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\XRPL.NET.Core\XRPL.NET.Core.csproj" />
+      <ProjectReference Include="..\XRPL.NET.Models\XRPL.NET.Models.csproj" />
     </ItemGroup>
 
 </Project>
